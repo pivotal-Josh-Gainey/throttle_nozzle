@@ -7,5 +7,5 @@ applications:
   env:
     CFUSER: throttle_nozzle_user
     CFPASSWORD: throttle_nozzle_password
-    CFAPI: <CFAPI>
+    CFAPI: <api.FQDN>
     SUBCRIPTIONID: ThrottleNozzle
