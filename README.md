@@ -2,6 +2,11 @@
 
 This is a simple Spring Boot application that can be pushed to a Cloud Foundry deployment and serve as a Nozzle to consume from the firehose and be throttled to simulate slow consumers.
 
+Clone the repo
+```java
+git clone https://github.com/pivotal-Josh-Gainey/throttle_nozzle.git && cd throttle_nozzle
+```
+
 The application gets it's Cloud Foundry access credentials from environment variables passed in via the manifest.yml.
 
 The credentials provided need to be able to access the firehose so lets create a user that has this priveledge. (or you can supply your own that have this access if desired.)
@@ -24,3 +29,15 @@ Changing these values:
     CFAPI: <api.FQDN>
     SUBCRIPTIONID: ThrottleNozzle
 ```
+Once the manifest looks ok, build the jar.
+```java
+./mvnw install
+```
+
+Then you can push to a Cloud Foundry deployment:
+```java
+cf push
+```
+
+Once the application is running, Navigate to the URL and the throttle controller is there.
+
