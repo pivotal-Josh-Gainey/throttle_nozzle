@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import reactor.core.publisher.Flux;
 
+
 public class Nozzle {
 
     //private singleton instance of nozzle to ensure only one per application.
@@ -19,30 +20,11 @@ public class Nozzle {
     private int consumingRate = 0;
     private int throttleSetting = 0;
 
+    //classwide for multi method access.
+    private Flux<Envelope> stream;
+
     private Nozzle(){
-        Utils.logInfo("Initializing Nozzle");
-        //cf auth and access
-        CFProperties props = new CFProperties();
-        ApplicationContext context = new AnnotationConfigApplicationContext(Configuration.class);
-        DefaultCloudFoundryOperations ops = (DefaultCloudFoundryOperations) context.getAutowireCapableBeanFactory().getBean("CFOperations");
-        Utils.logInfo("Successfully obtained CF credentials and access...requesting firehose stream.");
-        Flux<Envelope> stream = ops.getDopplerClient().firehose(
-                FirehoseRequest
-                        .builder()
-                        .subscriptionId(props.getSubscriptionID()).build());
-        Utils.logInfo("Stream obtained, starting up consumer.");
-        stream.subscribe(envelope -> {
-            consumingRate++;
-            if(getThrottleSettingAbs() > 0){
-                try {
-                    Thread.sleep(getThrottleSettingAbs());
-                } catch (InterruptedException e) {
-                    Utils.logError("Something went wrong sleeping in the nozzle");
-                    e.printStackTrace();
-                }
-            }
-        });
-        Utils.logInfo("Nozzle Initialization is complete and now consuming.");
+        initSelf();
     }
 
     public synchronized static Nozzle getInstance(){
@@ -50,6 +32,46 @@ public class Nozzle {
             nozzle =  new Nozzle();
         }
         return nozzle;
+    }
+
+    private void initSelf() {
+        initStream();
+        Utils.logInfo("Stream obtained, starting up consumer.");
+        startConsuming();
+        Utils.logInfo("Nozzle Initialization is complete and now consuming.");
+    }
+
+    private void initStream() {
+        Utils.logInfo("Initializing Nozzle");
+        //cf auth and access
+        CFProperties props = new CFProperties();
+        ApplicationContext context = new AnnotationConfigApplicationContext(Configuration.class);
+        DefaultCloudFoundryOperations ops = (DefaultCloudFoundryOperations) context.getAutowireCapableBeanFactory().getBean("CFOperations");
+        Utils.logInfo("Successfully obtained CF credentials and access...requesting firehose stream.");
+        stream = ops.getDopplerClient().firehose(
+                FirehoseRequest
+                        .builder()
+                        .subscriptionId(props.getSubscriptionID()).build())
+                .doOnNext(envelope ->  {
+                    consumingRate++;
+                    if(getThrottleSettingAbs() > 0){
+                        try {
+                            Thread.sleep(getThrottleSettingAbs());
+                        } catch (InterruptedException e) {
+                            Utils.logError("Something went wrong sleeping in the nozzle");
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .doOnTerminate(() -> {
+                    Utils.logError("Unexpected error, reconnecting...");
+                    startConsuming();
+                })
+                .onBackpressureDrop(envelope -> Utils.logWarning("Drop {}"));
+    }
+
+    private void startConsuming(){
+        stream.subscribe();
     }
 
 
