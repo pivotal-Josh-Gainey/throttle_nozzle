@@ -5,7 +5,7 @@ applications:
   random-route: true
   path: target/throttle_nozzle-0.0.1-SNAPSHOT.jar
   env:
-    CFUSER: throttle_nozzle_user
-    CFPASSWORD: throttle_nozzle_password
-    CFAPI: <api.FQDN>
+    CFUSER: throttlenozzle
+    CFPASSWORD: throttlenozzle
+    CFAPI: api.joshbot.ninja
     SUBCRIPTIONID: ThrottleNozzle

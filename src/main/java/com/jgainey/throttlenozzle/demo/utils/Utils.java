@@ -1,8 +1,11 @@
 package com.jgainey.throttlenozzle.demo.utils;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
@@ -13,9 +16,8 @@ public class Utils {
     enum LOGTYPE{INFO,WARNING,ERROR}
 
     public static void initLogger(){
-        LOGGER = Logger.getLogger("Throttle-Nozzle");
-        LOGGER.addHandler(new StreamHandler(System.out, new SimpleFormatter()));
-        LOGGER.setLevel(Level.ALL);
+        LOGGER = LoggerFactory.getLogger(Utils.class);
+
         logInfo("Throttle-Nozzle Logger Ready");
     }
 
@@ -37,15 +39,15 @@ public class Utils {
     }
 
     public static void logInfo(String message){
-        LOGGER.log(Level.INFO, message);
+        LOGGER.info(message);
     }
 
     public static void logWarning(String message){
-        LOGGER.log(Level.WARNING, message);
+        LOGGER.warn(message);
     }
 
     public static void logError(String message){
-        LOGGER.log(Level.SEVERE, message);
+        LOGGER.error(message);
     }
 
 }
