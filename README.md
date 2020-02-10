@@ -40,7 +40,7 @@ cf push
 
 Once the application is running, Navigate to the URL and the throttle controller is there.
 
-The Nozzle is singleton consumer per app instance and will maintain it's settings.  
+One Nozzle per app instance and this singleton consumer will maintain it's settings.  
 
 If this application is scaled to 10 instances then each instance will have to be throttled independently. Depending on how ingress traffic to the diego cells is set up, it may be time consuming trying to to reach each of the 10 instances.
 
