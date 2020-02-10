@@ -50,5 +50,5 @@ for i in {1..20}
 do
 curl -k <APP-URL>/set-throttle?throttle-setting=-500
 done
-java
+```
 Note the -500 in this curl. The throttle is adjustable from -500(slowest) to 0(fastest).
