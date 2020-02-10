@@ -90,7 +90,7 @@ public class Nozzle {
         return Math.abs(getThrottleSetting());
     }
 
-    private int getThrottleSetting() {
+    public int getThrottleSetting() {
         return throttleSetting;
     }
 
