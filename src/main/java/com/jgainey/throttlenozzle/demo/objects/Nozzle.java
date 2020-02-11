@@ -28,9 +28,11 @@ public class Nozzle {
         initSelf();
     }
 
-    public synchronized static Nozzle getInstance(){
+    public static Nozzle getInstance(){
         if(nozzle == null){
-            nozzle =  new Nozzle();
+            synchronized (Nozzle.class){
+                nozzle =  new Nozzle();
+            }
         }
         return nozzle;
     }
