@@ -7,5 +7,5 @@ applications:
   env:
     CFUSER: throttlenozzle
     CFPASSWORD: throttlenozzle
-    CFAPI: api.run-06.haas-59.pez.pivotal.io
+    CFAPI: <API-FQDN>
     SUBCRIPTIONID: ThrottleNozzle
