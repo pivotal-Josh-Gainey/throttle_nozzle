@@ -19,6 +19,7 @@ public class Nozzle {
     //variables to track nozzle statistics/settings
     private int consumingRate = 0;
     private int throttleSetting = 0;
+    private double totalConsumed = 0;
 
     //classwide for multi method access.
     private Flux<Envelope> stream;
@@ -54,6 +55,7 @@ public class Nozzle {
                         .subscriptionId(props.getSubscriptionID()).build())
                 .doOnNext(envelope ->  {
                     consumingRate++;
+                    totalConsumed ++;
                     if(getThrottleSettingAbs() > 0){
                         try {
                             Thread.sleep(getThrottleSettingAbs());
@@ -96,5 +98,9 @@ public class Nozzle {
 
     public void setThrottleSetting(int throttleSetting) {
         this.throttleSetting = throttleSetting;
+    }
+
+    public double getTotalConsumed() {
+        return totalConsumed;
     }
 }

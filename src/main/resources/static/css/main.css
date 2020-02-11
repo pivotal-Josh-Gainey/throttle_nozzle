@@ -74,6 +74,11 @@
     cursor: pointer; /* Cursor on hover */
 }
 
+.banner{
+    background: black;
+    width: 100%;
+}
+
 html, body {
     margin: 0;
     height: 100%;

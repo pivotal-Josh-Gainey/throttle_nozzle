@@ -1,8 +1,13 @@
 $(document).ready(function() {
     updateRate();
+    updateTotalConsumed();
     updateSlider();
-    setInterval(updateRate, 1000);
+    setInterval(updateUI, 1000);
 });
+function updateUI() {
+    updateRate();
+    updateTotalConsumed();
+}
 
 function updateRate() {
     $.get("/consuming-rate", function(data) {
@@ -20,3 +25,11 @@ function updateSlider(){
         }
     });
 }
+
+var updateTotalConsumed = function () {
+    $.get("/total-consumed", function(data) {
+        if (data != null) {
+            document.getElementById("total_consumed").innerHTML = "Total Consumed on this Connection: " + data;
+        }
+    });
+};

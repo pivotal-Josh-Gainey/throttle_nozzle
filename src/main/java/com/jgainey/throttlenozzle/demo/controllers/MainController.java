@@ -37,6 +37,13 @@ public class MainController {
     }
 
     @ResponseBody
+    @GetMapping("total-consumed")
+    public double getTotalConsumed(){
+        double throttleSetting = Nozzle.getInstance().getTotalConsumed();
+        return throttleSetting;
+    }
+
+    @ResponseBody
     @GetMapping("consuming-rate")
     public String getConsumingRateString() {
         String consumingRateString = Nozzle.getInstance().getConsumingRateString();
