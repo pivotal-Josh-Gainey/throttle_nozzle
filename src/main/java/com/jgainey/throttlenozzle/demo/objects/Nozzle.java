@@ -57,10 +57,10 @@ public class Nozzle {
                         .subscriptionId(props.getSubscriptionID()).build())
                 .doOnNext(envelope ->  {
                     consumingRate++;
-                    totalConsumed ++;
-                    if(getThrottleSettingAbs() > 0){
+                    totalConsumed++;
+                    if(Math.abs(getThrottleSetting()) > 0){
                         try {
-                            Thread.sleep(getThrottleSettingAbs());
+                            Thread.sleep(Math.abs(getThrottleSetting()));
                         } catch (InterruptedException e) {
                             Utils.logError("Something went wrong sleeping in the nozzle");
                             e.printStackTrace();
@@ -88,10 +88,6 @@ public class Nozzle {
 
     public String getConsumingRateString() {
         return "Consuming Rate:<br>" + getConsumingRate() +"/second.";
-    }
-
-    public int getThrottleSettingAbs() {
-        return Math.abs(getThrottleSetting());
     }
 
     public int getThrottleSetting() {
