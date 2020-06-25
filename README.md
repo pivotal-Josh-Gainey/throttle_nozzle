@@ -11,7 +11,7 @@ The application gets it's Cloud Foundry access credentials from environment vari
 
 The credentials provided need to be able to access the firehose so lets create a user that has this priveledge. (or you can supply your own that has this access.)
 ```java
-uaac target --skip-ssl-validation <api.FQDN>
+uaac target --skip-ssl-validation uaa.<systemFQDN>
 uaac token client get admin -s <admin-client-secret>
 uaac user add throttlenozzle \
     --password throttlenozzle \
