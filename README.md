@@ -14,7 +14,7 @@ The credentials provided need to be able to access the firehose so lets create a
 uaac target --skip-ssl-validation uaa.<systemFQDN>
 uaac token client get admin -s <admin-client-secret>
 uaac user add throttlenozzle \
-    --password throttlenozzle \
+    --password <password> \
     --emails throttle@nozzle.com \
     && uaac member add doppler.firehose throttlenozzle
   ```
