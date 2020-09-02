@@ -6,6 +6,6 @@ applications:
   path: target/throttle_nozzle-0.0.1-SNAPSHOT.jar
   env:
     CFUSER: throttlenozzle
-    CFPASSWORD: throttlenozzle
+    CFPASSWORD: <password from uaa create>
     CFAPI: <API-FQDN>
     SUBCRIPTIONID: ThrottleNozzle
